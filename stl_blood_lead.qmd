@@ -1,0 +1,42 @@
+---
+title: "stl_lead_inequality"
+format: html
+editor: visual
+execute: 
+  warning: FALSE
+---
+
+```{r}
+library(tidyverse)
+library(janitor)
+library(dplyr)
+```
+
+```{r}
+stl_blood_lead <- read_csv(here::here("data", "stl_lead.csv")) %>% 
+  clean_names()
+```
+
+```{r}
+stl_lead_prop <- stl_blood_lead %>% 
+  dplyr::mutate(prop_white = (white / total_pop) *100)
+```
+
+```{r}
+ggplot(data = stl_lead_prop, aes( x = pct_elevated, y = prop_white)) +
+  geom_jitter(aes(size = pct_elevated, color = pct_elevated, alpha = "0.5")) +
+   scale_colour_gradient(low = "red", high = "purple") +
+  theme_linedraw() +
+  labs(title = "graph")
+
+```
+
+```{r}
+## the trend in the data shows that children in white populations tend to have lower levels of lead compared to children in non-white populations.
+```
+
+```{r}
+ggplot(data = stl_lead_prop, aes(x = pct_elevated)) +
+  geom_histogram(fill = "blue", color = "red", size = 10)
+
+```
